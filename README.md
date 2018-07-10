@@ -9,9 +9,9 @@
 
 3. docker-compose up -d
 
-#Result 
+# Result 
 
-# docker ps
+ docker ps
 
 
 
