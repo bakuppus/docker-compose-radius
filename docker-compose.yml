@@ -1,0 +1,53 @@
+version: "2"
+
+services:
+  web:
+    build: web/.
+    ports:
+      - "80:80"
+    networks:
+     - webnet
+  db:
+    build: db/.
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - webnet
+
+  ssh:
+    build: ssh/.
+    restart: on-failure
+    ports:
+      - "2222:22"
+    networks:
+      - webnet
+
+
+  radius:
+    build: radius/.
+    ports:
+      - "1812:1812"
+      - "1813:1813"
+      - "18120:18120"
+    networks:
+      - webnet
+
+
+
+  log:
+    build: log/.
+    ports:
+      - "514:514"
+    networks:
+      - webnet
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+
+networks:
+  webnet:
+
+
