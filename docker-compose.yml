@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 services:
   web:
@@ -7,13 +7,21 @@ services:
       - "80:80"
     networks:
      - webnet
+    volumes:
+     - /var/www/html:/var/www/html
+ 
   db:
     build: db/.
-    restart: always
+    restart: on-failure
     ports:
-      - "3307:3306"
+      - "3306"
+    env_file: 
+       - "db/db.env"
     environment:
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpassword
     networks:
       - webnet
 
@@ -50,4 +58,5 @@ services:
 networks:
   webnet:
 
-
+volumes:
+  webvolume:  
